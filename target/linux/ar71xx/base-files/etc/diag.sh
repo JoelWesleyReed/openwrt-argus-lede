@@ -24,9 +24,13 @@ get_status_led() {
 	antminer-s3|\
 	antminer-r1|\
 	e1700ac-v2|\
+	e558-v2|\
 	e600gac-v2|\
+	e750a-v4|\
+	e750g-v8|\
 	eap120|\
 	minibox-v1|\
+	minibox-v3.2|\
 	packet-squirrel|\
 	som9331|\
 	sr3200|\
@@ -63,6 +67,7 @@ get_status_led() {
 	archer-c25-v1|\
 	archer-c58-v1|\
 	archer-c59-v1|\
+	archer-c59-v2|\
 	archer-c60-v1|\
 	archer-c60-v2|\
 	archer-c7-v4|\
@@ -80,8 +85,6 @@ get_status_led() {
 	tl-wr902ac-v1)
 		status_led="$board:green:power"
 		;;
-	archer-c5|\
-	archer-c7|\
 	tl-mr10u|\
 	tl-mr12u|\
 	tl-mr13u|\
@@ -124,6 +127,7 @@ get_status_led() {
 		status_led="$board:red:sys"
 		;;
 	bullet-m|\
+	bullet-m-xw|\
 	loco-m-xw|\
 	nano-m|\
 	nanostation-m|\
@@ -375,7 +379,10 @@ get_status_led() {
 	rb-962uigs-5hact2hnt|\
 	rb-lhg-5nd|\
 	rb-map-2nd|\
-	rb-mapl-2nd)
+	rb-mapl-2nd|\
+	rb-sxt-2nd-r3|\
+	rb-wap-2nd|\
+	rb-wapr-2nd)
 		status_led="rb:green:user"
 		;;
 	rb-951ui-2hnd)
@@ -384,7 +391,8 @@ get_status_led() {
 	rb-912uag-2hpnd|\
 	rb-912uag-5hpnd|\
 	rb-sxt2n|\
-	rb-sxt5n)
+	rb-sxt5n|\
+	rb-wapg-5hact2hnd)
 		status_led="rb:green:power"
 		;;
 	re355|\
@@ -440,6 +448,8 @@ get_status_led() {
 	tl-mr6400)
 		status_led="tp-link:white:power"
 		;;
+	archer-c5|\
+	archer-c7|\
 	tl-mr3220|\
 	tl-mr3220-v2|\
 	tl-mr3420|\
@@ -563,6 +573,9 @@ set_state() {
 		status_led_blink_failsafe
 		;;
 	preinit_regular)
+		status_led_blink_preinit_regular
+		;;
+	upgrade)
 		status_led_blink_preinit_regular
 		;;
 	done)

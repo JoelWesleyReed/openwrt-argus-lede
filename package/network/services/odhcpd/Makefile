@@ -8,22 +8,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=odhcpd
-PKG_RELEASE:=1
-PKG_VERSION:=1.9
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/odhcpd.git
-PKG_SOURCE_DATE:=2018-07-09
-PKG_SOURCE_VERSION:=345bba0889ae9deeac4ca805ebc3f0661b4b3988
-PKG_MIRROR_HASH:=53b4ecfaba0e2a56b7332de844bb4ae44c0f045f413f7ac3f5f66e9f03ca8c44
+PKG_SOURCE_DATE:=2020-01-14
+PKG_SOURCE_VERSION:=6db312a698e920ff61505ef1f42469880829774d
+PKG_MIRROR_HASH:=4c9f5effd379fed3119f0a2d2661c5929ac234d9b2e3d7a6a1de72409b04a0f1
 
 PKG_MAINTAINER:=Hans Dedecker <dedeckeh@gmail.com>
 PKG_LICENSE:=GPL-2.0
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
-
 PKG_INSTALL:=1
 PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_odhcpd_$(BUILD_VARIANT)_ext_cer_id
+PKG_ASLR_PIE_REGULAR:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
@@ -72,6 +70,7 @@ endef
 define Package/odhcpd-ipv6only
   $(call Package/odhcpd/default)
   VARIANT:=ipv6only
+  DEPENDS+= @IPV6
 endef
 
 Package/odhcpd-ipv6only/config=$(call Package/odhcpd/default/config,odhcpd-ipv6only,ipv6only)
