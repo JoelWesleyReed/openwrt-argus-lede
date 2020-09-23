@@ -1,5 +1,3 @@
-#!/bin/sh
-
 set_preinit_iface() {
 	. /lib/functions.sh
 
@@ -13,8 +11,6 @@ set_preinit_iface() {
 	meraki,mr33| \
 	zyxel,nbg6617)
 		ifname=eth0
-		;;
-	*)
 		;;
 	esac
 }

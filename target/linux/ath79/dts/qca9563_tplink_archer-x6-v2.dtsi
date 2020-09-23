@@ -9,10 +9,6 @@
 	aliases {
 		label-mac-device = &eth0;
 	};
-
-	chosen {
-		bootargs = "console=ttyS0,115200n8";
-	};
 };
 
 &pcie {
@@ -20,10 +16,6 @@
 };
 
 &uart {
-	status = "okay";
-};
-
-&gpio {
 	status = "okay";
 };
 
@@ -50,12 +42,12 @@
 	phy-mode = "sgmii";
 	phy-handle = <&phy0>;
 
-	mtd-mac-address = <&mac 0x8>;
+	mtd-mac-address = <&info 0x8>;
 };
 
 &wmac {
 	status = "okay";
 
 	mtd-cal-data = <&art 0x1000>;
-	mtd-mac-address = <&mac 0x8>;
+	mtd-mac-address = <&info 0x8>;
 };
