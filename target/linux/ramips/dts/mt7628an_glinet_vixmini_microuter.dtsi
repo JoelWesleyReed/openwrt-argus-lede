@@ -23,12 +23,12 @@
 		compatible = "gpio-leds";
 
 		led_power_blue: power {
-			/* Name is set device-specific */
+			label = "blue:power";
 			gpios = <&gpio 42 GPIO_ACTIVE_LOW>;
 		};
 
-		led_wlan_white: wlan {
-			/* Name is set device-specific */
+		wlan {
+			label = "white:wlan";
 			gpios = <&gpio 44 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0tpt";
 		};
@@ -53,11 +53,14 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 };
 
 &wmac {
 	status = "okay";
+
+	mediatek,mtd-eeprom = <&factory 0x0>;
 };
 
 &spi0 {
@@ -100,5 +103,15 @@
 				label = "firmware";
 			};
 		};
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
 	};
 };

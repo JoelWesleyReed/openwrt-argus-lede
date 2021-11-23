@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-/dts-v1/;
 
 #include "mt7621.dtsi"
 
@@ -21,7 +20,7 @@
 		compatible = "gpio-leds";
 
 		led_sys: sys {
-			label = "a7000r:blue:sys";
+			label = "blue:sys";
 			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -101,7 +100,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0xe000>;
+	nvmem-cells = <&macaddr_factory_e000>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -129,8 +129,9 @@
 		port@4 {
 			status = "okay";
 			label = "wan";
-			mtd-mac-address = <&factory 0xe000>;
-			mtd-mac-address-increment = <1>;
+			nvmem-cells = <&macaddr_factory_e000>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <1>;
 		};
 	};
 };
@@ -139,5 +140,15 @@
 	gpio {
 		groups = "i2c", "wdt";
 		function = "gpio";
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_e000: macaddr@e000 {
+		reg = <0xe000 0x6>;
 	};
 };

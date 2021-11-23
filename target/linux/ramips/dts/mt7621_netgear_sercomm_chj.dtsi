@@ -20,20 +20,24 @@
 		compatible = "gpio-leds";
 
 		led_power: power {
+			label = "green:power";
 			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
 		};
 
-		led_usb: usb {
+		usb {
+			label = "green:usb";
 			gpios = <&gpio 15 GPIO_ACTIVE_LOW>;
 			trigger-sources = <&xhci_ehci_port1>, <&ehci_port2>;
 			linux,default-trigger = "usbport";
 		};
 
-		led_internet: internet {
+		internet {
+			label = "green:wan";
 			gpios = <&gpio 13 GPIO_ACTIVE_LOW>;
 		};
 
-		led_wifi: wifi {
+		wifi {
+			label = "green:wifi";
 			gpios = <&gpio 16 GPIO_ACTIVE_LOW>;
 			linux,default-trigger = "phy0tpt";
 		};
@@ -92,7 +96,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -120,8 +125,9 @@
 		port@4 {
 			status = "okay";
 			label = "wan";
-			mtd-mac-address = <&factory 0x4>;
-			mtd-mac-address-increment = <2>;
+			nvmem-cells = <&macaddr_factory_4>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <2>;
 		};
 	};
 };
@@ -180,5 +186,15 @@
 			reg = <0x4800000 0x3800000>;
 			read-only;
 		};
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
 	};
 };

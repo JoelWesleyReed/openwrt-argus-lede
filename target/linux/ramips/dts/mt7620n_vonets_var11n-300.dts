@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7620n.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -20,7 +18,7 @@
 		compatible = "gpio-leds";
 
 		led_system: system {
-			label = "var11n-300:blue:system";
+			label = "blue:system";
 			gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
 		};
 	};
@@ -34,10 +32,6 @@
 			linux,code = <KEY_RESTART>;
 		};
 	};
-};
-
-&gpio0 {
-	status = "okay";
 };
 
 &spi0 {
@@ -81,7 +75,8 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 
 	mediatek,portmap = "llllw";
 };
@@ -94,5 +89,15 @@
 	default {
 		groups = "i2c";
 		function = "gpio";
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
 	};
 };

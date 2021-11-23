@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7621_ubnt_edgerouter-x.dtsi"
 
 / {
@@ -68,8 +66,9 @@
 			label = "eth5";
 			phy-handle = <&ephy7>;
 			phy-mode = "rgmii-rxid";
-			mtd-mac-address = <&factory 0x22>;
-			mtd-mac-address-increment = <5>;
+			nvmem-cells = <&macaddr_factory_22>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <5>;
 		};
 	};
 };

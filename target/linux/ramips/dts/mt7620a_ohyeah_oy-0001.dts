@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7620a.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -24,12 +22,12 @@
 		compatible = "gpio-leds";
 
 		led_power: powerled {
-			label = "oy-0001:green:power";
+			label = "green:power";
 			gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
 		};
 
 		wifiled {
-			label = "oy-0001:green:wifi";
+			label = "green:wifi";
 			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -43,10 +41,6 @@
 			linux,code = <KEY_RESTART>;
 		};
 	};
-};
-
-&gpio2 {
-	status = "okay";
 };
 
 &gpio3 {
@@ -104,13 +98,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&ephy_pins>;
 
-	mtd-mac-address = <&factory 0x28>;
+	nvmem-cells = <&macaddr_factory_28>;
+	nvmem-cell-names = "mac-address";
 
 	mediatek,portmap = "llllw";
-};
-
-&gsw {
-	mediatek,port4 = "ephy";
 };
 
 &wmac {
@@ -127,4 +118,14 @@
 
 &ohci {
 	status = "okay";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_28: macaddr@28 {
+		reg = <0x28 0x6>;
+	};
 };

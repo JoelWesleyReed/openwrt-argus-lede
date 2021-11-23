@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7620n.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -24,19 +22,19 @@
 		compatible = "gpio-leds";
 
 		led_power: power {
-			label = "zbt-wa05:blue:power";
+			label = "blue:power";
 			gpios = <&gpio1 14 GPIO_ACTIVE_LOW>;
 		};
 
 		usb {
-			label = "zbt-wa05:blue:usb";
+			label = "blue:usb";
 			gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
 			trigger-sources = <&ohci_port1>, <&ehci_port1>;
 			linux,default-trigger = "usbport";
 		};
 
 		air {
-			label = "zbt-wa05:blue:air";
+			label = "blue:air";
 			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -53,10 +51,6 @@
 };
 
 &gpio1 {
-	status = "okay";
-};
-
-&gpio2 {
 	status = "okay";
 };
 
@@ -113,7 +107,8 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 
 	mediatek,portmap = "wllll";
 };
@@ -126,5 +121,15 @@
 	default {
 		groups = "i2c", "spi refclk", "wled";
 		function = "gpio";
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
 	};
 };

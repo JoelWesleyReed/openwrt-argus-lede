@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
-/dts-v1/;
-
 #include "mt7620a.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -31,7 +29,7 @@
 		compatible = "gpio-leds";
 
 		led_wps: wps {
-			label = "bl-w1200:green:wps";
+			label = "green:wps";
 			gpios = <&gpio1 15 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -92,7 +90,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&rgmii2_pins &mdio_pins>;
 
-	mtd-mac-address = <&factory 0x28>;
+	nvmem-cells = <&macaddr_factory_28>;
+	nvmem-cell-names = "mac-address";
 
 	mediatek,portmap = "wllll";
 
@@ -137,6 +136,10 @@
 	};
 };
 
+&gsw {
+	mediatek,ephy-base = /bits/ 8 <12>;
+};
+
 &wmac {
 	ralink,mtd-eeprom = <&factory 0x0>;
 };
@@ -165,4 +168,14 @@
 
 &ohci {
 	status = "okay";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_28: macaddr@28 {
+		reg = <0x28 0x6>;
+	};
 };

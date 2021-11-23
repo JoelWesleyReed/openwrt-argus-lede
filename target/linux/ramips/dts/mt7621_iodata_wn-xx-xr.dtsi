@@ -18,12 +18,12 @@
 		compatible = "gpio-leds";
 
 		wps {
-			label = "iodata:green:wps";
+			label = "green:wps";
 			gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
 		};
 
 		led_power: power {
-			label = "iodata:green:power";
+			label = "green:power";
 			gpios = <&gpio 9 GPIO_ACTIVE_HIGH>;
 		};
 	};
@@ -118,7 +118,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0xe000>;
+	nvmem-cells = <&macaddr_factory_e000>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -126,7 +127,8 @@
 		wan: port@0 {
 			status = "okay";
 			label = "wan";
-			mtd-mac-address = <&factory 0xe006>;
+			nvmem-cells = <&macaddr_factory_e006>;
+			nvmem-cell-names = "mac-address";
 		};
 
 		port@1 {
@@ -164,4 +166,18 @@
 
 &xhci {
 	status = "disabled";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_e000: macaddr@e000 {
+		reg = <0xe000 0x6>;
+	};
+
+	macaddr_factory_e006: macaddr@e006 {
+		reg = <0xe006 0x6>;
+	};
 };

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-/dts-v1/;
 
 #include "rt5350.dtsi"
 
@@ -21,12 +20,12 @@
 		compatible = "gpio-leds";
 
 		led_power: power {
-			label = "keenetic-lite-b:green:power";
+			label = "green:power";
 			gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
 		};
 
 		wps {
-			label = "keenetic-lite-b:green:wps";
+			label = "green:wps";
 			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -96,7 +95,8 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x28>;
+	nvmem-cells = <&macaddr_factory_28>;
+	nvmem-cell-names = "mac-address";
 };
 
 &esw {
@@ -107,4 +107,14 @@
 &wmac {
 	ralink,led-polarity = <1>;
 	ralink,mtd-eeprom = <&factory 0x0>;
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_28: macaddr@28 {
+		reg = <0x28 0x6>;
+	};
 };

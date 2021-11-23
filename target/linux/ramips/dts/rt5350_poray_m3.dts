@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "rt5350.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -20,7 +18,7 @@
 		compatible = "gpio-leds";
 
 		led_status: status {
-			label = "m3:blue:status";
+			label = "blue:status";
 			gpios = <&gpio0 9 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -92,7 +90,8 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 };
 
 &esw {
@@ -105,10 +104,12 @@
 	ralink,led-polarity = <1>;
 };
 
-&ehci {
-	status = "okay";
-};
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
 
-&ohci {
-	status = "okay";
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
 };

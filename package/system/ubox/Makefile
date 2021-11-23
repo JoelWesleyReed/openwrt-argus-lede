@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ubox
-PKG_RELEASE:=4
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(PROJECT_GIT)/project/ubox.git
-PKG_SOURCE_DATE:=2019-12-31
-PKG_SOURCE_VERSION:=0e34af143373126fc62b43612233a158694ec643
-PKG_MIRROR_HASH:=8ad36b252419a88d1018addec84900f9601ef5aece39bd0171c918d0817688c9
+PKG_SOURCE_DATE:=2021-08-03
+PKG_SOURCE_VERSION:=205defb597295a4a8966db3e618cfe41a29bed99
+PKG_MIRROR_HASH:=22da1601424c13af8751424b4216f32910a26da49408b6f309158ed8cee93034
 CMAKE_INSTALL:=1
 
 PKG_LICENSE:=GPL-2.0
@@ -44,6 +44,7 @@ define Package/logd
   CATEGORY:=Base system
   DEPENDS:=+libubox +libubus +libblobmsg-json +USE_GLIBC:librt
   TITLE:=OpenWrt system log implementation
+  USERID:=logd=514:logd=514
 endef
 
 define Package/getrandom/install

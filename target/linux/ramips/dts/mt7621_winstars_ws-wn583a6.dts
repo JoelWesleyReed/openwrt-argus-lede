@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
-/dts-v1/;
 
 #include "mt7621.dtsi"
 
@@ -21,22 +20,22 @@
 		compatible = "gpio-leds";
 
 		night_light_white {
-			label = "ws-wn583a6:white:night_light";
+			label = "white:night_light";
 			gpios = <&gpio 15 GPIO_ACTIVE_HIGH>;
 		};
 
 		led_status_blue: status_blue {
-			label = "ws-wn583a6:blue:status";
+			label = "blue:status";
 			gpios = <&gpio 22 GPIO_ACTIVE_LOW>;
 		};
 
 		status_amber {
-			label = "ws-wn583a6:amber:status";
+			label = "amber:status";
 			gpios = <&gpio 24 GPIO_ACTIVE_LOW>;
 		};
 
 		led_status_red: status_red {
-			label = "ws-wn583a6:red:status";
+			label = "red:status";
 			gpios = <&gpio 25 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -120,7 +119,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0xe000>;
+	nvmem-cells = <&macaddr_factory_e000>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -128,7 +128,8 @@
 		port@0 {
 			status = "okay";
 			label = "wan";
-			mtd-mac-address = <&factory 0xe006>;
+			nvmem-cells = <&macaddr_factory_e006>;
+			nvmem-cell-names = "mac-address";
 		};
 
 		port@1 {
@@ -147,4 +148,18 @@
 
 &xhci {
 	status = "disabled";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_e000: macaddr@e000 {
+		reg = <0xe000 0x6>;
+	};
+
+	macaddr_factory_e006: macaddr@e006 {
+		reg = <0xe006 0x6>;
+	};
 };

@@ -20,12 +20,12 @@
 		compatible = "gpio-leds";
 
 		wlan1 {
-			label = "ap7621-001:orange:wlan1";
+			label = "orange:wlan1";
 			gpios = <&gpio 11 GPIO_ACTIVE_LOW>;
 		};
 
 		wlan0 {
-			label = "ap7621-001:orange:wlan0";
+			label = "orange:wlan0";
 			gpios = <&gpio 12 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -100,12 +100,23 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0xe000>;
+	nvmem-cells = <&macaddr_factory_e000>;
+	nvmem-cell-names = "mac-address";
 };
 
 &state_default {
 	gpio {
 		groups = "wdt", "jtag";
 		function = "gpio";
+	};
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_e000: macaddr@e000 {
+		reg = <0xe000 0x6>;
 	};
 };

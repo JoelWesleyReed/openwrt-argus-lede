@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7621.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -20,12 +18,12 @@
 		compatible = "gpio-leds";
 
 		wifi {
-			label = "re6500:orange:wifi";
+			label = "orange:wifi";
 			gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
 		};
 
 		led_power: power {
-			label = "re6500:white:power";
+			label = "white:power";
 			gpios = <&gpio 9 GPIO_ACTIVE_HIGH>;
 		};
 	};
@@ -115,7 +113,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0x2e>;
+	nvmem-cells = <&macaddr_factory_2e>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -144,4 +143,14 @@
 
 &xhci {
 	status = "disabled";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_2e: macaddr@2e {
+		reg = <0x2e 0x6>;
+	};
 };

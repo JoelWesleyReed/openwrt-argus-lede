@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "rt3050.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -20,19 +18,19 @@
 		compatible = "gpio-leds";
 
 		led_cpu: cpu {
-			label = "nw718:amber:cpu";
+			label = "amber:cpu";
 			gpios = <&gpio0 13 GPIO_ACTIVE_LOW>;
 		};
 
 		usb {
-			label = "nw718:amber:usb";
+			label = "amber:usb";
 			gpios = <&gpio0 8 GPIO_ACTIVE_LOW>;
 			trigger-sources = <&otg_port1>;
 			linux,default-trigger = "usbport";
 		};
 
 		wps {
-			label = "nw718:amber:wps";
+			label = "amber:wps";
 			gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -103,7 +101,8 @@
 };
 
 &ethernet {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 };
 
 &esw {
@@ -116,4 +115,14 @@
 
 &otg {
 	status = "okay";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
 };

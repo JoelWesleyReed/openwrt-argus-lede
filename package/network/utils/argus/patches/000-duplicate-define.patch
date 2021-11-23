@@ -1,0 +1,13 @@
+diff --git a/argus/ArgusUdt.c b/argus/ArgusUdt.c
+index efb933b..0fd5810 100644
+--- a/argus/ArgusUdt.c
++++ b/argus/ArgusUdt.c
+@@ -41,7 +41,7 @@
+ #include <ArgusModeler.h>
+ 
+ #include <argus/bootp.h>
+-struct bootp *bp;
++//struct bootp *bp;
+ 
+ struct ArgusSystemFlow *
+ ArgusCreateUDTFlow (struct ArgusModelerStruct *model, struct udt_header *udt)

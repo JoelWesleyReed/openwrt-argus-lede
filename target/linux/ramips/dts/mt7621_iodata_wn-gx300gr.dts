@@ -1,5 +1,3 @@
-/dts-v1/;
-
 #include "mt7621.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -24,12 +22,12 @@
 		compatible = "gpio-leds";
 
 		led_power: power {
-			label = "wn-gx300gr:green:power";
+			label = "green:power";
 			gpios = <&gpio 7 GPIO_ACTIVE_LOW>;
 		};
 
 		wps {
-			label = "wn-gx300gr:green:wps";
+			label = "green:wps";
 			gpios = <&gpio 17 GPIO_ACTIVE_LOW>;
 		};
 	};
@@ -130,7 +128,8 @@
 };
 
 &gmac0 {
-	mtd-mac-address = <&factory 0x4>;
+	nvmem-cells = <&macaddr_factory_4>;
+	nvmem-cell-names = "mac-address";
 };
 
 &switch0 {
@@ -138,8 +137,9 @@
 		port@0 {
 			status = "okay";
 			label = "wan";
-			mtd-mac-address = <&factory 0x4>;
-			mtd-mac-address-increment = <1>;
+			nvmem-cells = <&macaddr_factory_4>;
+			nvmem-cell-names = "mac-address";
+			mac-address-increment = <1>;
 		};
 
 		port@1 {
@@ -184,4 +184,14 @@
 
 &xhci {
 	status = "disabled";
+};
+
+&factory {
+	compatible = "nvmem-cells";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	macaddr_factory_4: macaddr@4 {
+		reg = <0x4 0x6>;
+	};
 };
