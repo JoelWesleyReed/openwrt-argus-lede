@@ -42,6 +42,10 @@
 	};
 };
 
+&crypto {
+	status = "okay";
+};
+
 &eth {
 	status = "okay";
 
@@ -127,19 +131,15 @@
 	pinctrl-0 = <&spi_flash_pins>;
 	status = "okay";
 
-	flash@0 {
+	spi_nand_flash: flash@0 {
 		compatible = "spi-nand";
 		#address-cells = <1>;
 		#size-cells = <1>;
 		reg = <0>;
 
-		mediatek,nmbm;
-		mediatek,bmt-max-ratio = <1>;
-		mediatek,bmt-max-reserved-blocks = <64>;
-
 		spi-max-frequency = <20000000>;
-		spi-tx-buswidth = <4>;
-		spi-rx-buswidth = <4>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
 
 		partitions: partitions {
 			compatible = "fixed-partitions";
@@ -179,18 +179,6 @@
 			partition@380000 {
 				label = "FIP";
 				reg = <0x380000 0x200000>;
-				read-only;
-			};
-
-			partition@580000 {
-				label = "crash";
-				reg = <0x580000 0x40000>;
-				read-only;
-			};
-
-			partition@5c0000 {
-				label = "crash_log";
-				reg = <0x5c0000 0x40000>;
 				read-only;
 			};
 		};
@@ -250,7 +238,6 @@
 
 		port@6 {
 			reg = <6>;
-			label = "cpu";
 			ethernet = <&gmac0>;
 			phy-mode = "2500base-x";
 
@@ -263,7 +250,19 @@
 	};
 };
 
-&wmac {
+&trng {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&watchdog {
+	status = "okay";
+};
+
+&wifi {
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&wf_2g_5g_pins>;

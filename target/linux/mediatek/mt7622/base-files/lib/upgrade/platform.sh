@@ -8,6 +8,7 @@ platform_do_upgrade() {
 	bananapi,bpi-r64)
 		local rootdev="$(cmdline_get_var root)"
 		rootdev="${rootdev##*/}"
+		rootdev="${rootdev%p[0-9]*}"
 		case "$rootdev" in
 		mmc*)
 			CI_ROOTDEV="$rootdev"
@@ -20,7 +21,8 @@ platform_do_upgrade() {
 			;;
 		esac
 		;;
-	buffalo,wsr-2533dhp2)
+	buffalo,wsr-2533dhp2|\
+	buffalo,wsr-3200ax4s)
 		local magic="$(get_magic_long "$1")"
 
 		# use "mtd write" if the magic is "DHP2 (0x44485032)"
@@ -34,6 +36,7 @@ platform_do_upgrade() {
 		;;
 	elecom,wrc-x3200gst3|\
 	mediatek,mt7622-rfb1-ubi|\
+	netgear,wax206|\
 	totolink,a8000ru|\
 	xiaomi,redmi-router-ax6s)
 		nand_do_upgrade "$1"
@@ -65,14 +68,17 @@ platform_check_image() {
 	[ "$#" -gt 1 ] && return 1
 
 	case "$board" in
-	buffalo,wsr-2533dhp2)
+	buffalo,wsr-2533dhp2|\
+	buffalo,wsr-3200ax4s)
 		buffalo_check_image "$board" "$magic" "$1" || return 1
 		;;
 	elecom,wrc-x3200gst3|\
 	mediatek,mt7622-rfb1-ubi|\
+	netgear,wax206|\
 	totolink,a8000ru|\
 	xiaomi,redmi-router-ax6s)
 		nand_do_platform_check "$board" "$1"
+		return $?
 		;;
 	*)
 		[ "$magic" != "d00dfeed" ] && {
